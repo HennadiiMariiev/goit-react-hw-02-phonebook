@@ -1,7 +1,14 @@
 const Form = (props) => {
+  const nameInput = document.querySelector("[name='name']");
+  const numberInput = document.querySelector("[name='number']");
+
+  const clearInputs = () => {
+    nameInput.value = "";
+    numberInput.value = "";
+  };
+
   const sendContactInfo = () => {
-    const nameInput = document.querySelector("[name='name']");
-    const numberInput = document.querySelector("[name='number']");
+    console.log("form 1:", nameInput.value, numberInput.value);
 
     if (nameInput.value.trim() === "" || numberInput.value.trim() === "")
       return;
@@ -10,7 +17,11 @@ const Form = (props) => {
       name: nameInput.value,
       number: numberInput.value,
     };
-    props.onSubmit(newContactInfo);
+
+    console.log("form 2", newContactInfo);
+
+    props.onNewContactAdd(newContactInfo);
+    clearInputs();
   };
 
   return (

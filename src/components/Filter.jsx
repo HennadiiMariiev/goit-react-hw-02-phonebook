@@ -1,6 +1,6 @@
 const Filter = (props) => {
   const searchContact = (event) => {
-    props.onSearchByName(event.target.value);
+    props.onFilterChange(event.target.value);
   };
 
   return (

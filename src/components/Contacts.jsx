@@ -1,6 +1,10 @@
-const Contacts = ({ contacts, deleteContact }) => {
+const Contacts = ({ contacts, deleteContact, getHardCodedContacts }) => {
   const removeContact = (event) => {
     deleteContact(event.target.value);
+  };
+
+  const onHardCodedCheckboxChange = (event) => {
+    getHardCodedContacts(event.target);
   };
 
   const contactsItems = contacts.map(({ name, number, id }) => {
@@ -18,6 +22,14 @@ const Contacts = ({ contacts, deleteContact }) => {
   return (
     <div>
       <h2>Contacts</h2>
+      <label>
+        <input
+          type="checkbox"
+          name="useHardCoded"
+          onClick={onHardCodedCheckboxChange}
+        />
+        Use hard-coded contacts
+      </label>
       <ul>{contactsItems}</ul>
     </div>
   );
