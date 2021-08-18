@@ -15,6 +15,8 @@ const StyledTitle = styled.h1`
   color: #2db57f;
   font-size: 2rem;
   margin-bottom: 1rem;
+
+  text-shadow: 1px 1px 1px -2px rgba(0, 0, 0, 0.56);
 `;
 
 const StyledLable = styled.label`

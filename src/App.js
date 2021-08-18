@@ -20,12 +20,26 @@ const StyledApp = styled.section`
   padding: 1rem 1.5rem;
 
   width: 80vw;
-  max-width: 600px;
+  width: 600px;
 
   box-shadow: 7px 7px 15px -8px rgba(0, 0, 0, 0.56);
 `;
 
-const StyledBanner = styled.p``;
+const StyledBanner = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+
+  padding: 1rem 1.5rem;
+  color: #fafafa;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 1.5rem;
+
+  background-color: #d6d6d6;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -49,7 +63,7 @@ class App extends React.Component {
 
   onInputChange = (event) => {
     if (!this.isValidInput(event)) {
-      event.target.style = "background-color: tomato;";
+      event.target.style = "background-color: #f7d7d7;";
     } else {
       event.target.style = "background-color: transparent;";
     }
@@ -147,7 +161,7 @@ class App extends React.Component {
           disabled={this.state.contacts.length ? false : true}
         />
         {contacts.length === 0 ? (
-          <p>No contacts here</p>
+          <StyledBanner>No contacts...</StyledBanner>
         ) : (
           <Contacts contacts={contacts} deleteContact={this.deleteContact} />
         )}

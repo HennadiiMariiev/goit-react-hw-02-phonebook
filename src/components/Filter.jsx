@@ -55,7 +55,7 @@ const Filter = ({ onFilterChange, filter, disabled }) => {
   return (
     <div>
       <StyledLable>
-        Search contacts
+        Search
         <StyledInput
           type="text"
           name="search"
