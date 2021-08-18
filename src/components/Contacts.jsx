@@ -1,18 +1,12 @@
-const Contacts = ({ contacts, deleteContact, getHardCodedContacts }) => {
-  const removeContact = (event) => {
-    deleteContact(event.target.value);
-  };
+import PropTypes from "prop-types";
 
-  const onHardCodedCheckboxChange = (event) => {
-    getHardCodedContacts(event.target);
-  };
-
+const Contacts = ({ contacts, deleteContact }) => {
   const contactsItems = contacts.map(({ name, number, id }) => {
     return (
       <li key={id}>
         <span>Name:</span>
         {name} <span>Number:</span> {number}
-        <button onClick={removeContact} value={id}>
+        <button onClick={deleteContact} value={id}>
           Remove
         </button>
       </li>
@@ -22,17 +16,20 @@ const Contacts = ({ contacts, deleteContact, getHardCodedContacts }) => {
   return (
     <div>
       <h2>Contacts</h2>
-      <label>
-        <input
-          type="checkbox"
-          name="useHardCoded"
-          onClick={onHardCodedCheckboxChange}
-        />
-        Use hard-coded contacts
-      </label>
       <ul>{contactsItems}</ul>
     </div>
   );
+};
+
+Contacts.propTypes = {
+  deleteContact: PropTypes.func,
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+      number: PropTypes.string,
+    })
+  ),
 };
 
 export default Contacts;

@@ -4,6 +4,7 @@ import Form from "./components/Form";
 import Contacts from "./components/Contacts";
 import Filter from "./components/Filter";
 import hardCodedContacts from "./data/hardCodedContacts";
+import HardCodeContactsCheckbox from "./components/HardCodeCheckbox";
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -17,61 +18,61 @@ class App extends React.Component {
     };
 
     this.addContact = this.addContact.bind(this);
+    this.isNameInContacts = this.isNameInContacts.bind(this);
     this.deleteContact = this.deleteContact.bind(this);
-    this.onSearchByName = this.onSearchByName.bind(this);
+    this.onFilterChange = this.onFilterChange.bind(this);
     this.filterContacts = this.filterContacts.bind(this);
     this.getHardCodedContacts = this.getHardCodedContacts.bind(this);
   }
 
-  addContact({ name, number }) {
-    const id = uuidv4();
-    const newContact = { name, number, id };
+  isNameInContacts(searchName) {
+    return this.state.contacts.filter(({ name }) => name === searchName)
+      .length !== 0
+      ? true
+      : false;
+  }
 
-    console.log(newContact);
+  addContact({ name, number }) {
+    if (this.isNameInContacts(name)) {
+      console.log("there is an existing contact with this name!");
+      return;
+    }
+
+    const id = uuidv4();
 
     this.setState({
-      contacts: [...this.state.contacts, newContact],
+      contacts: [...this.state.contacts, { name, number, id }],
     });
   }
 
-  deleteContact(id) {
+  deleteContact(event) {
+    const id = event.target.value;
+
     this.setState({
+      filter: "",
       contacts: [
         ...this.state.contacts.filter((contact) => {
           return contact.id !== id;
         }),
       ],
     });
-
-    if (this.state.filter) {
-      this.setState({
-        filter: "",
-      });
-    }
   }
 
-  onSearchByName(inputValue) {
-    if (inputValue.trim() === "") {
-      this.setState({
-        filter: "",
-      });
-      return;
-    }
-
+  onFilterChange(event) {
     this.setState({
-      filter: inputValue,
+      filter: event.target.value,
     });
   }
 
-  getHardCodedContacts(checkbox) {
-    const startIndex = this.state.contacts.findIndex((el) => el.id === "id-1");
-
-    checkbox.checked
+  getHardCodedContacts(event) {
+    event.target.checked
       ? this.setState({
           contacts: [...this.state.contacts, ...hardCodedContacts],
         })
       : this.setState({
-          contacts: this.state.contacts.slice(startIndex, startIndex + 7),
+          contacts: this.state.contacts.filter(
+            (contactEl) => !hardCodedContacts.includes(contactEl)
+          ),
         });
   }
 
@@ -82,9 +83,9 @@ class App extends React.Component {
 
     const searchStr = this.state.filter.toLowerCase();
 
-    return this.state.contacts.filter((contact) => {
-      return contact.name.toLowerCase().includes(searchStr);
-    });
+    return this.state.contacts.filter((contact) =>
+      contact.name.toLowerCase().includes(searchStr)
+    );
   }
 
   render() {
@@ -93,12 +94,20 @@ class App extends React.Component {
     return (
       <div className="App">
         <Form onNewContactAdd={this.addContact}></Form>
-        <Filter onFilterChange={this.onSearchByName}></Filter>
-        <Contacts
-          contacts={contacts}
-          deleteContact={this.deleteContact}
-          getHardCodedContacts={this.getHardCodedContacts}
-        ></Contacts>
+        <HardCodeContactsCheckbox
+          onHardCodedCheckboxChange={this.getHardCodedContacts}
+        />
+        {contacts.length === 0 ? (
+          <p>No contacts here</p>
+        ) : (
+          <>
+            <Filter
+              onFilterChange={this.onFilterChange}
+              value={this.state.filter}
+            />
+            <Contacts contacts={contacts} deleteContact={this.deleteContact} />
+          </>
+        )}
       </div>
     );
   }

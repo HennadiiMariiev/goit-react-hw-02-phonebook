@@ -1,14 +1,24 @@
-const Filter = (props) => {
-  const searchContact = (event) => {
-    props.onFilterChange(event.target.value);
-  };
+import PropTypes from "prop-types";
 
+const Filter = ({ onFilterChange, filter }) => {
   return (
     <div>
-      <h2>Find contacts by name</h2>
-      <input type="text" name="search" onChange={searchContact}></input>
+      <label>
+        Find contacts by name
+        <input
+          type="text"
+          name="search"
+          value={filter}
+          onChange={onFilterChange}
+        />
+      </label>
     </div>
   );
+};
+
+Filter.propTypes = {
+  onFilterChange: PropTypes.func,
+  filter: PropTypes.string,
 };
 
 export default Filter;

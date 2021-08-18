@@ -1,4 +1,6 @@
-const Form = (props) => {
+import PropTypes from "prop-types";
+
+const Form = ({ onNewContactAdd }) => {
   const nameInput = document.querySelector("[name='name']");
   const numberInput = document.querySelector("[name='number']");
 
@@ -8,50 +10,53 @@ const Form = (props) => {
   };
 
   const sendContactInfo = () => {
-    console.log("form 1:", nameInput.value, numberInput.value);
-
     if (nameInput.value.trim() === "" || numberInput.value.trim() === "")
       return;
 
-    const newContactInfo = {
+    onNewContactAdd({
       name: nameInput.value,
       number: numberInput.value,
-    };
+    });
 
-    console.log("form 2", newContactInfo);
-
-    props.onNewContactAdd(newContactInfo);
     clearInputs();
   };
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <p>Name</p>
       <form>
-        <input
-          type="text"
-          name="name"
-          //   pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
-          placeholder="Please, type contact name here"
-          required
-        />
-        <p>Number</p>
-        <input
-          type="tel"
-          name="number"
-          //   pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
-          placeholder="Please, type contact number here"
-          required
-        />
+        <label>
+          Name
+          <input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
+            placeholder="Please, type contact name here"
+            required
+          />
+        </label>
+        <label>
+          Number
+          <input
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
+            placeholder="Please, type contact number here"
+            required
+          />
+        </label>
         <button type="button" onClick={sendContactInfo}>
           Add contact
         </button>
       </form>
     </div>
   );
+};
+
+Form.propTypes = {
+  onNewContactAdd: PropTypes.func,
 };
 
 export default Form;
