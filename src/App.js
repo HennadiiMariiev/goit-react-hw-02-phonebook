@@ -19,8 +19,7 @@ const StyledApp = styled.section`
   justify-content: center;
   padding: 1rem 1.5rem;
 
-  width: 80vw;
-  width: 600px;
+  width: 100%;
 
   box-shadow: 7px 7px 15px -8px rgba(0, 0, 0, 0.56);
 `;
@@ -82,7 +81,6 @@ class App extends React.Component {
   };
 
   addContact = (event) => {
-    console.log(event.target);
     const name = event.target.querySelector("[name='name']").value;
     const number = event.target.querySelector("[name='number']").value;
 

@@ -6,6 +6,8 @@ const StyledForm = styled.form`
   flex-direction: column;
   justify-content: space-between;
 
+  width: 100%;
+
   margin-bottom: 1.5rem;
 `;
 
@@ -43,7 +45,7 @@ const StyledLable = styled.label`
 const StyledInput = styled.input`
   margin-left: 0.75rem;
   display: block;
-  min-width: 350px;
+  width: 90%;
   height: 2rem;
   font-size: 1.25rem;
   font-weight: 400;
