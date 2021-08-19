@@ -1,44 +1,18 @@
 import React from "react";
-import Form from "./components/Form";
-import Contacts from "./components/Contacts";
-import Filter from "./components/Filter";
-import HardCodeContactsCheckbox from "./components/HardCodeCheckbox";
+import Form from "./components/Form/Form";
+import Contacts from "./components/Contacts/Contacts";
+import Filter from "./components/Filter/Filter";
+import HardCodeContactsCheckbox from "./components/HardCodeCheckbox/HardCodeCheckbox";
+import { ToastContainer, toast } from "react-toastify";
 import { v4 as uuidv4 } from "uuid";
+import {
+  StyledApp,
+  StyledBanner,
+} from "./components/AppComponents/AppComponents";
 
 import hardCodedContacts from "./data/hardCodedContacts";
 
-import styled from "styled-components";
-
-const StyledApp = styled.section`
-  background-color: #ffffff;
-  border: 1px solid #c15ae0;
-  border-radius: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem 1.5rem;
-
-  width: 100%;
-
-  box-shadow: 7px 7px 15px -8px rgba(0, 0, 0, 0.56);
-`;
-
-const StyledBanner = styled.p`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-
-  padding: 1rem 1.5rem;
-  color: #fafafa;
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 1.5rem;
-
-  background-color: #d6d6d6;
-`;
+import "react-toastify/dist/ReactToastify.css";
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +23,8 @@ class App extends React.Component {
       filter: "",
     };
   }
+
+  //#region class methods
 
   isValidInput = (event) => {
     if (
@@ -85,7 +61,9 @@ class App extends React.Component {
     const number = event.target.querySelector("[name='number']").value;
 
     if (this.isNameInContacts(name)) {
-      console.log("there is an existing contact with this name! ");
+      const existContactMessage = (name) =>
+        toast.warn(`There is an existing contact with name "${name}"!`);
+      existContactMessage(name);
       return;
     }
 
@@ -94,6 +72,10 @@ class App extends React.Component {
     this.setState({
       contacts: [...this.state.contacts, { name, number, id }],
     });
+
+    const addedContactMessage = (name) =>
+      toast.success(`New contact "${name}" was added!`);
+    addedContactMessage(name);
 
     this.clearInputs(event);
   };
@@ -141,6 +123,8 @@ class App extends React.Component {
     );
   };
 
+  //#endregion
+
   render() {
     const contacts = this.filterContacts();
 
@@ -163,6 +147,7 @@ class App extends React.Component {
         ) : (
           <Contacts contacts={contacts} deleteContact={this.deleteContact} />
         )}
+        <ToastContainer />
       </StyledApp>
     );
   }

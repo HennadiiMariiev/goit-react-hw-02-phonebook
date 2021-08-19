@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StyledLable = styled.label`
+export const StyledLabel = styled.label`
   text-transform: uppercase;
   font-size: 1.25rem;
   font-weight: 600;
@@ -22,7 +21,7 @@ const StyledLable = styled.label`
   }
 `;
 
-const StyledInput = styled.input`
+export const StyledInput = styled.input`
   margin-left: 0.75rem;
   display: block;
   min-width: 350px;
@@ -50,28 +49,3 @@ const StyledInput = styled.input`
     border: 1px solid #e1e8e5;
   }
 `;
-
-const Filter = ({ onFilterChange, filter, disabled }) => {
-  return (
-    <div>
-      <StyledLable>
-        Search
-        <StyledInput
-          type="text"
-          name="search"
-          placeholder="Please, type search name"
-          value={filter}
-          onChange={onFilterChange}
-          disabled={disabled}
-        />
-      </StyledLable>
-    </div>
-  );
-};
-
-Filter.propTypes = {
-  onFilterChange: PropTypes.func,
-  filter: PropTypes.string,
-};
-
-export default Filter;

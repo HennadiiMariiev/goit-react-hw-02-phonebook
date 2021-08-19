@@ -1,13 +1,12 @@
-import PropTypes from "prop-types";
 import styled from "styled-components";
 
-const StyledSubTitle = styled.h2`
+export const StyledSubTitle = styled.h2`
   color: #2db57f;
   text-transform: uppercase;
   margin-bottom: 1rem;
 `;
 
-const StyledDiv = styled.div`
+export const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -19,7 +18,7 @@ const StyledDiv = styled.div`
   background-color: #d6d6d6;
 `;
 
-const StyledButton = styled.button`
+export const StyledButton = styled.button`
   align-self: center;
   padding: 0.25rem 0.75rem;
   border: 1px solid #c15ae0;
@@ -41,7 +40,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const StyledList = styled.ul`
+export const StyledList = styled.ul`
   display: flex;
   width: 100%;
   flex-direction: column;
@@ -51,7 +50,7 @@ const StyledList = styled.ul`
   list-style: none;
 `;
 
-const StyledItem = styled.li`
+export const StyledItem = styled.li`
   width: 100%;
   display: flex;
   align-items: stretch;
@@ -66,7 +65,7 @@ const StyledItem = styled.li`
   }
 `;
 
-const StyledName = styled.p`
+export const StyledName = styled.p`
   font-size: 1rem;
   font-weight: 600;
 
@@ -74,45 +73,10 @@ const StyledName = styled.p`
   min-width: 40%;
 `;
 
-const StyledNumber = styled.p`
+export const StyledNumber = styled.p`
   font-size: 1rem;
   font-weight: 600;
   display: block;
   min-width: 35%;
   color: #2db57f;
 `;
-
-const Contacts = ({ contacts, deleteContact }) => {
-  const contactsItems = contacts.map(({ name, number, id }) => {
-    return (
-      <StyledItem key={id}>
-        <StyledName>{name}</StyledName>
-        <StyledNumber>{number}</StyledNumber>
-
-        <StyledButton onClick={deleteContact} value={id}>
-          Remove
-        </StyledButton>
-      </StyledItem>
-    );
-  });
-
-  return (
-    <StyledDiv>
-      <StyledSubTitle>Contacts</StyledSubTitle>
-      <StyledList>{contactsItems}</StyledList>
-    </StyledDiv>
-  );
-};
-
-Contacts.propTypes = {
-  deleteContact: PropTypes.func,
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string,
-      name: PropTypes.string,
-      number: PropTypes.string,
-    })
-  ),
-};
-
-export default Contacts;
