@@ -1,18 +1,15 @@
-import React from "react";
-import Form from "./components/Form/Form";
-import Contacts from "./components/Contacts/Contacts";
-import Filter from "./components/Filter/Filter";
-import HardCodeContactsCheckbox from "./components/HardCodeCheckbox/HardCodeCheckbox";
-import { ToastContainer, toast } from "react-toastify";
-import { v4 as uuidv4 } from "uuid";
-import {
-  StyledApp,
-  StyledBanner,
-} from "./components/AppComponents/AppComponents";
+import React from 'react';
+import Form from './components/Form/Form';
+import Contacts from './components/Contacts/Contacts';
+import Filter from './components/Filter/Filter';
+import HardCodeContactsCheckbox from './components/HardCodeCheckbox/HardCodeCheckbox';
+import { ToastContainer, toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
+import { StyledApp, StyledBanner } from './components/AppComponents/AppComponents';
 
-import hardCodedContacts from "./data/hardCodedContacts";
+import hardCodedContacts from './data/hardCodedContacts';
 
-import "react-toastify/dist/ReactToastify.css";
+import 'react-toastify/dist/ReactToastify.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,49 +17,53 @@ class App extends React.Component {
 
     this.state = {
       contacts: [],
-      filter: "",
+      filter: '',
+      name: '',
+      number: '',
     };
   }
 
   //#region class methods
 
   isValidInput = (event) => {
-    if (
-      event.target.value.match(event.target.pattern) === null &&
-      event.target.value.length !== 0
-    ) {
+    if (event.target.value.match(event.target.pattern) === null && event.target.value.length !== 0) {
       return false;
     }
     return true;
   };
 
   onInputChange = (event) => {
-    if (!this.isValidInput(event)) {
-      event.target.style = "background-color: #f7d7d7;";
-    } else {
-      event.target.style = "background-color: transparent;";
-    }
+    // if (!this.isValidInput(event)) {
+    //   event.target.style = 'background-color: #f7d7d7;';
+    // } else {
+    //   event.target.style = 'background-color: transparent;';
+    // }
+
+    this.setState({ name: event.target.value });
   };
 
   isNameInContacts = (searchName) => {
-    return this.state.contacts.filter(({ name }) => name === searchName)
-      .length !== 0
-      ? true
-      : false;
+    return this.state.contacts.find(({ name }) => name === searchName);
   };
 
-  clearInputs = (event) => {
-    event.target.querySelector("[name='name']").value = "";
-    event.target.querySelector("[name='number']").value = "";
+  clearInputs = () => {
+    // event.target.querySelector("[name='name']").value = '';
+    // event.target.querySelector("[name='number']").value = '';
+    // this.setState({
+    //   name: '',
+    //   number: '',
+    // });
   };
 
-  addContact = (event) => {
-    const name = event.target.querySelector("[name='name']").value;
-    const number = event.target.querySelector("[name='number']").value;
-
+  addContact = (event, name, number) => {
+    // const name = event.target.querySelector("[name='name']").value;
+    // const number = event.target.querySelector("[name='number']").value;
+    // console.log(event.target.value);
+    console.log(name);
+    console.log(number);
+    // event.preventDefault();
     if (this.isNameInContacts(name)) {
-      const existContactMessage = (name) =>
-        toast.warn(`There is an existing contact with name "${name}"!`);
+      const existContactMessage = (name) => toast.warn(`There is an existing contact with name "${name}"!`);
       existContactMessage(name);
       return;
     }
@@ -73,18 +74,17 @@ class App extends React.Component {
       contacts: [...this.state.contacts, { name, number, id }],
     });
 
-    const addedContactMessage = (name) =>
-      toast.success(`New contact "${name}" was added!`);
+    const addedContactMessage = (name) => toast.success(`New contact "${name}" was added!`);
     addedContactMessage(name);
 
-    this.clearInputs(event);
+    this.clearInputs();
   };
 
   deleteContact = (event) => {
     const id = event.target.value;
 
     this.setState({
-      filter: "",
+      filter: '',
       contacts: [
         ...this.state.contacts.filter((contact) => {
           return contact.id !== id;
@@ -105,22 +105,18 @@ class App extends React.Component {
           contacts: [...this.state.contacts, ...hardCodedContacts],
         })
       : this.setState({
-          contacts: this.state.contacts.filter(
-            (contactEl) => !hardCodedContacts.includes(contactEl)
-          ),
+          contacts: this.state.contacts.filter((contactEl) => !hardCodedContacts.includes(contactEl)),
         });
   };
 
   filterContacts = () => {
-    if (this.state.filter === "") {
+    if (this.state.filter === '') {
       return this.state.contacts;
     }
 
     const searchStr = this.state.filter.toLowerCase();
 
-    return this.state.contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(searchStr)
-    );
+    return this.state.contacts.filter((contact) => contact.name.toLowerCase().includes(searchStr));
   };
 
   //#endregion
@@ -133,10 +129,10 @@ class App extends React.Component {
         <Form
           onNewContactAdd={this.addContact}
           onInputChange={this.onInputChange}
+          nameValue={this.state.name}
+          numberValue={this.state.number}
         ></Form>
-        <HardCodeContactsCheckbox
-          onHardCodedCheckboxChange={this.getHardCodedContacts}
-        />
+        <HardCodeContactsCheckbox onHardCodedCheckboxChange={this.getHardCodedContacts} />
         <Filter
           onFilterChange={this.onFilterChange}
           value={this.state.filter}

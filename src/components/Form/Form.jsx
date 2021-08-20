@@ -1,23 +1,17 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-import {
-  StyledForm,
-  StyledTitle,
-  StyledLable,
-  StyledInput,
-  StyledButton,
-} from "./StyledFormComponents";
+import { StyledForm, StyledTitle, StyledLable, StyledInput, StyledButton } from './StyledFormComponents';
 
-const Form = ({ onNewContactAdd, onInputChange }) => {
-  const sendContactInfo = (event) => {
-    event.preventDefault();
-    onNewContactAdd(event);
-  };
+const Form = ({ onNewContactAdd, onInputChange, nameValue, numberValue }) => {
+  // const sendContactInfo = (event, nameValue, numberValue) => {
+  //   event.preventDefault();
+  //   onNewContactAdd(nameValue, numberValue);
+  // };
 
   return (
     <>
       <StyledTitle>Phonebook</StyledTitle>
-      <StyledForm onSubmit={sendContactInfo}>
+      <StyledForm onSubmit={() => onNewContactAdd(nameValue, numberValue)}>
         <StyledLable>
           Name
           <StyledInput
@@ -27,6 +21,7 @@ const Form = ({ onNewContactAdd, onInputChange }) => {
             title="Имя может состоять только из букв, апострофа, тире и пробелов. Например Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan и т. п."
             placeholder="Please, type contact name"
             required
+            value={nameValue}
             onChange={onInputChange}
           />
         </StyledLable>
@@ -39,6 +34,7 @@ const Form = ({ onNewContactAdd, onInputChange }) => {
             title="Номер телефона должен состоять цифр и может содержать пробелы, тире, круглые скобки и может начинаться с +"
             placeholder="Please, type contact number"
             required
+            value={numberValue}
             onChange={onInputChange}
           />
         </StyledLable>
